@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tp3/app/components/learning.dart';
+import 'package:tp3/app/components/training.dart';
 import 'package:tp3/util/random.dart';
 import 'package:tp3/util/strings.dart';
 
@@ -10,12 +11,17 @@ class Home extends StatefulWidget {
   }
 }
 
+const int NB_CHOICE = 3;
+
 class _HomeState extends State<Home> {
-  int index = 0;
+  RandomCard randomCard = new RandomCard();
+  Training training;
+  Learning learning = new Learning();
+  int _index = 0;
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+    training = new Training(randomCard);
     return Scaffold(
       appBar: AppBar(
         title: Text(Strings.of(context).title),
@@ -24,58 +30,61 @@ class _HomeState extends State<Home> {
           child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          changeAppBody(index),
+          _changeAppBody(_index),
           BottomNavigationBar(
             items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(
-                  icon: Icon(Icons.content_paste),
-                  title: Text(Strings.of(context).learn),
+                  icon: Icon(
+                    Icons.content_paste,
+                    color: _index == 0 ? Colors.red : Colors.black,
+                  ),
+                  title: Text(
+                    Strings.of(context).learn,
+                    style: TextStyle(
+                      color: _index == 0 ? Colors.red : Colors.black,
+                    ),
+                  ),
                   backgroundColor: Colors.white),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.brush),
-                  title: Text("Entrainement"),
+                  icon: Icon(
+                    Icons.brush,
+                    color: _index == 1 ? Colors.red : Colors.black,
+                  ),
+                  title: Text(
+                    Strings.of(context).train,
+                    style: TextStyle(
+                      color: _index == 1 ? Colors.red : Colors.black,
+                    ),
+                  ),
                   backgroundColor: Colors.white),
             ],
-            onTap: changeAppState,
+            onTap: _onClickChangeAppState,
           )
         ],
       )),
     );
   }
 
-  void changeAppState(int index) {
+  void _onClickChangeAppState(int index) {
     setState(() {
-      this.index = index;
+      _index = index;
     });
   }
 
-  Widget changeAppBody(int index) {
-    if (index == 0) {
-      return Expanded(
-        child: GridView.count(
-          crossAxisCount: 2,
-          children: new Learning().learningCardList,
-        ),
-      );
-    } else {
-      return Expanded(
-          child: Column(children: <Widget>[
-        Expanded(
-            child: GridView.count(
-          crossAxisCount: 1,
-          children: <Widget>[new RandomCard().pick()],
-        )),
-        Row(children: <Widget>[Expanded(
-            child: RaisedButton(
-              child: Text("A"),
-            )),]),Row(children: <Widget>[Expanded(
-            child: RaisedButton(
-              child: Text("A"),
-            )),]),Row(children: <Widget>[Expanded(
-            child: RaisedButton(
-              child: Text("A"),
-            )),])
-      ]));
-    }
+  Widget _changeAppBody(int index) {
+    return Expanded(
+      child: IndexedStack(
+        index: _index,
+        children: <Widget>[_showLearningBody(), _showTrainingBody()],
+      ),
+    );
+  }
+
+  Widget _showLearningBody() {
+    return learning.showCardList();
+  }
+
+  Widget _showTrainingBody() {
+    return training;
   }
 }

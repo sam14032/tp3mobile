@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tp3/app/components/learning.dart';
 import 'package:tp3/app/components/training.dart';
-import 'package:tp3/util/random.dart';
 import 'package:tp3/util/strings.dart';
 
 class Home extends StatefulWidget {
@@ -14,14 +13,13 @@ class Home extends StatefulWidget {
 const int NB_CHOICE = 3;
 
 class _HomeState extends State<Home> {
-  RandomCard randomCard = new RandomCard();
-  Training training;
-  Learning learning = new Learning();
+  Training _training;
+  Learning _learning = new Learning();
   int _index = 0;
 
   @override
   Widget build(BuildContext context) {
-    training = new Training(randomCard);
+    _training = new Training();
     return Scaffold(
       appBar: AppBar(
         title: Text(Strings.of(context).title),
@@ -81,10 +79,10 @@ class _HomeState extends State<Home> {
   }
 
   Widget _showLearningBody() {
-    return learning.showCardList();
+    return _learning.showCardList();
   }
 
   Widget _showTrainingBody() {
-    return training;
+    return _training;
   }
 }

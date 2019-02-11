@@ -1,118 +1,124 @@
 import 'package:flutter/material.dart';
-import 'package:tp3/app/hiragana/hiragana.dart';
-import 'package:tp3/app/home/home.dart';
 import 'package:tp3/util/random.dart';
 
 const NB_BUTTON = 3;
-class Training extends StatefulWidget{
 
-  _Training training;
-
-  Training(RandomCard randomCard){
-    training = new _Training(randomCard);
-  }
-
+class Training extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
-    return training;
+    return new _Training();
   }
-
 }
-class _Training extends State<Training>{
-  RandomCard _randomCard;
-  List<bool> _isChoiceCorrectList = new List();
-  List<String> _buttonChoiceTextList;
-  List<FlatButton> _buttonList = new List();
 
+class _Training extends State<Training> {
+  RandomCard _randomCard = new RandomCard();
+  List<bool> _areChoicesCorrect = new List();
+  List<String> _buttonsChoiceText;
+  List<FlatButton> _buttons = new List();
 
-  Card pickedCard;
-
-  _Training(RandomCard randomCard) {
-    _randomCard = randomCard;
+  _Training() {
     initializeNewLetter();
   }
 
-  Widget showTraining() {
+  Widget _reloadView() {
+    _buttons.clear();
+    for (int i = 0; i < NB_BUTTON; i++)
+      _buttons.add(FlatButton(
+          disabledTextColor: Colors.red,
+          onPressed: _areChoicesCorrect[i]
+              ? () {
+                  changeButtonState(i, _buttonsChoiceText[i]);
+                }
+              : null,
+          child: Text(_buttonsChoiceText[i])));
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.max,
       children: <Widget>[
         Expanded(
           child: Column(
-
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-
-              Expanded(child: pickedCard,),
+              Expanded(
+                child: Card(
+                    child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  children: <Widget>[
+                    Expanded(
+                        child: FittedBox(
+                      child: Text(_randomCard.getGuessingLetter()),
+                    ))
+                  ],
+                )),
+              ),
             ],
           ),
-        )
-        ,
-        _buttonList[0],
-        _buttonList[1],
-        _buttonList[2],
+        ),
+        _buttons[0],
+        _buttons[1],
+        _buttons[2],
       ],
     );
   }
-  void initializeNewLetter(){
-    _isChoiceCorrectList.clear();
-    _buttonList.clear();
-    pickedCard = _randomCard.pickCard();
-    _buttonChoiceTextList = _randomCard.pickButtonTextList();
-    for (int i = 0; i < NB_BUTTON; i++) {
-      _isChoiceCorrectList.add(true);
-      _buttonList.add(FlatButton(
-          textColor: _isChoiceCorrectList[i] ? Colors.blue : Colors.red
-          , onPressed: _isChoiceCorrectList[i] ? () {
-        changeButtonState(i
-              , _buttonChoiceTextList[i]);} : null,
-          child: Text(_buttonChoiceTextList[i])));
-    }
+
+  void initializeNewLetter() {
+    _areChoicesCorrect.clear();
+    _buttons.clear();
+    _buttonsChoiceText = _randomCard.pickButtonTextList();
+    for (int i = 0; i < NB_BUTTON; i++) _areChoicesCorrect.add(true);
   }
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    return  Column(
+    _buttons.clear();
+    for (int i = 0; i < NB_BUTTON; i++)
+      _buttons.add(FlatButton(
+          disabledTextColor: Colors.red,
+          onPressed: _areChoicesCorrect[i]
+              ? () {
+                  changeButtonState(i, _buttonsChoiceText[i]);
+                }
+              : null,
+          child: Text(_buttonsChoiceText[i])));
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.max,
       children: <Widget>[
         Expanded(
           child: Column(
-
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-
-              Expanded(child: pickedCard,),
+              Expanded(
+                child: Card(
+                    child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  children: <Widget>[
+                    Expanded(
+                        child: FittedBox(
+                      child: Text(_randomCard.getGuessingLetter()),
+                    ))
+                  ],
+                )),
+              ),
             ],
           ),
-        )
-        ,
-        _buttonList[0],
-        _buttonList[1],
-        _buttonList[2],
+        ),
+        _buttons[0],
+        _buttons[1],
+        _buttons[2],
       ],
     );
   }
+
   void changeButtonState(int index, String choice) {
     setState(() {
-      _isChoiceCorrectList[index] = choice == _randomCard.getWinningAnswer();
+      _areChoicesCorrect[index] = choice == _randomCard.getWinningAnswer();
     });
-    if (_isChoiceCorrectList[index]) {
+    if (_areChoicesCorrect[index]) {
       initializeNewLetter();
-      showTraining();
+      _reloadView();
     }
   }
 }
-
-/*void _isButtonChoiceCorrect(bool isChoiceCorrect, String choice) {
-  isChoiceCorrect = choice == _randomCard.getWinningAnswer();
-  if(isChoiceCorrect){
-    _initializeNewLetter();
-    showTraining();
-  }
-
-}*/

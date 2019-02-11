@@ -14,15 +14,18 @@ class Learning {
       _learningCardList.add(new Card(
         child: Column(
           children: <Widget>[
-            Expanded(child: FittedBox(child: Text(Hiraganas.keys.elementAt(i))),),
-            Expanded(child: FittedBox(child: Text(Hiraganas.values.elementAt(i))))
+            Expanded(
+              child: FittedBox(child: Text(Hiraganas.keys.elementAt(i))),
+            ),
+            Expanded(
+                child: FittedBox(child: Text(Hiraganas.values.elementAt(i))))
           ],
         ),
       ));
     }
   }
 
-  Widget showCardList(){
+  Widget showCardList() {
     return GridView.count(
       crossAxisCount: 2,
       children: _learningCardList,

@@ -4,6 +4,8 @@ import 'package:tp3/app/hiragana/hiragana.dart';
 
 const NB_BUTTONS = 3;
 
+//BEN_CORRECTION : Pas certain que le nommage soit correct ici (pour la classe, ses fonctions, etc...).
+//BEN_CORRECTION : Cette classe aurait du contenir l'entièreté de l'état du mode "Entrainement".
 class RandomCard {
   int _index;
   List<String> _buttonList = new List();
@@ -30,7 +32,7 @@ class RandomCard {
           Hiraganas[Hiraganas.keys.elementAt(_getRandomIndex())];
       if (!_buttonList.contains(hiraganasToGet))
         _buttonList.add(hiraganasToGet);
-      _buttonList.shuffle();
+      _buttonList.shuffle(); //BEN_REVIEW : Pas utile selon moi.
     }
     return _buttonList;
   }

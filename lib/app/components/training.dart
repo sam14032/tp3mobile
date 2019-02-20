@@ -14,12 +14,16 @@ class _Training extends State<Training> {
   RandomCard _randomCard = new RandomCard();
   List<bool> _areChoicesCorrect = new List();
   List<String> _buttonsChoiceText;
+
+  //BEN_CORRECTION : Cet attribut devrait être une variable.
   List<FlatButton> _buttons = new List();
 
   _Training() {
     initializeNewLetter();
   }
 
+  //BEN_CORRECTION : "reloadView" et "build" me semblent très similaires.
+  //BEN_CORRECTION : La mise à jour de l'interface se fait après l'appel à "setState".
   Widget _reloadView() {
     _buttons.clear();
     for (int i = 0; i < NB_BUTTON; i++)
@@ -118,6 +122,7 @@ class _Training extends State<Training> {
     });
     if (_areChoicesCorrect[index]) {
       initializeNewLetter();
+      //BEN_CORRECTION : Le retour de cette fonction est ignorée.
       _reloadView();
     }
   }

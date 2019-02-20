@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tp3/app/hiragana/hiragana.dart';
 
+//BEN_CORRECTION : Ceci devrait être un Widget.
 class Learning {
   List<Card> _learningCardList = new List<Card>();
 

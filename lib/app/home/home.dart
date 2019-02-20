@@ -13,6 +13,7 @@ class Home extends StatefulWidget {
 const int NB_CHOICE = 3;
 
 class _HomeState extends State<Home> {
+  //BEN_CORRECTION : Pourquoi training n'est pas initialisé ici ?
   Training _training;
   Learning _learning = new Learning();
   int _index = 0;
@@ -69,6 +70,8 @@ class _HomeState extends State<Home> {
     });
   }
 
+  //BEN_CORRECTION : Nommage mensonger. Ce n'est pas ce que cela fait.
+  //                 Je vois pas non plus pourquoi c'est pas dans la fonction "build" directement.
   Widget _changeAppBody(int index) {
     return Expanded(
       child: IndexedStack(
@@ -78,10 +81,12 @@ class _HomeState extends State<Home> {
     );
   }
 
+  //BEN_CORRECTION : Je comprends pas l'utilité de cette fonction.
   Widget _showLearningBody() {
     return _learning.showCardList();
   }
 
+  //BEN_CORRECTION : Je comprends pas l'utilité de cette fonction.
   Widget _showTrainingBody() {
     return _training;
   }
